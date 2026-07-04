@@ -9,20 +9,29 @@ html,body{
     height:100%;
     overflow:hidden;
     font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(to bottom,#020111,#050b25,#000);
+    background:linear-gradient(to bottom,#020111,#07152d,#000);
 }
 
-canvas{
+#heart{
     position:fixed;
     inset:0;
+    width:100%;
+    height:100%;
     z-index:2;
 }
 
 #stars,
-#lilies{
+#flowers{
     position:fixed;
     inset:0;
     pointer-events:none;
+}
+
+#stars{
+    z-index:0;
+}
+
+#flowers{
     z-index:1;
 }
 
@@ -30,9 +39,9 @@ canvas{
     position:absolute;
     width:2px;
     height:2px;
-    background:white;
+    background:#fff;
     border-radius:50%;
-    animation:twinkle 2s infinite alternate;
+    animation:twinkle 3s infinite alternate;
 }
 
 @keyframes twinkle{
@@ -42,12 +51,13 @@ canvas{
     }
     to{
         opacity:1;
-        transform:scale(1.8);
+        transform:scale(2);
     }
 }
 
-.lily{
+.flower{
     position:absolute;
+    top:-80px;
     font-size:34px;
     animation:fall linear forwards;
     user-select:none;
@@ -55,52 +65,53 @@ canvas{
 
 @keyframes fall{
     from{
-        transform:translateY(-120px) rotate(0deg);
+        transform:translateY(-100px) rotate(0deg);
     }
+
     to{
         transform:translateY(120vh) rotate(360deg);
     }
 }
 
-.center-text{
+.text{
     position:absolute;
-    top:50%;
     left:50%;
+    top:50%;
     transform:translate(-50%,-50%);
     text-align:center;
-    z-index:10;
     color:white;
+    z-index:5;
 }
 
-.center-text h1{
-    color:#ff4da6;
-    font-size:3rem;
+.text h1{
+    font-size:52px;
+    color:#ff5ba7;
     text-shadow:
-        0 0 15px #ff4da6,
-        0 0 30px #ff1493,
-        0 0 60px #ff1493;
+        0 0 10px #ff5ba7,
+        0 0 20px #ff5ba7,
+        0 0 40px #ff1493;
 }
 
-.center-text p{
+.text p{
     margin-top:15px;
-    font-size:1.2rem;
+    font-size:24px;
     color:#fff;
-    letter-spacing:4px;
+    letter-spacing:3px;
 }
 
 #playBtn{
     position:fixed;
-    bottom:25px;
+    bottom:30px;
     left:50%;
     transform:translateX(-50%);
-    padding:14px 30px;
     border:none;
-    border-radius:40px;
-    background:#ff4da6;
-    color:white;
+    border-radius:50px;
+    background:#ff5ba7;
+    color:#fff;
+    padding:15px 30px;
     font-size:18px;
     cursor:pointer;
-    z-index:100;
+    z-index:10;
     box-shadow:0 0 20px #ff1493;
 }
 
@@ -109,13 +120,18 @@ canvas{
 }
 
 @media(max-width:768px){
-    .center-text h1{
-        font-size:2rem;
-    }
 
-    .center-text p{
-        font-size:1rem;
-    }
+.text h1{
+    font-size:32px;
+}
+
+.text p{
+    font-size:18px;
+}
+
+#playBtn{
+    font-size:16px;
+    padding:12px 24px;
 }
 
 }
