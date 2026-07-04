@@ -1,3 +1,78 @@
+// ===============================
+// Səni Çox Sevirəm Dinara ❤️
+// Part 1
+// ===============================
+
+const canvas = document.getElementById("heart");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+const TEXT = "Səni çox sevirəm Dinara ❤️";
+
+class TextParticle {
+    constructor(x, y) {
+        this.baseX = x;
+        this.baseY = y;
+
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+
+        this.size = 10 + Math.random() * 6;
+        this.speed = 0.04 + Math.random() * 0.02;
+    }
+
+    update() {
+        this.x += (this.baseX - this.x) * this.speed;
+        this.y += (this.baseY - this.y) * this.speed;
+    }
+
+    draw() {
+        ctx.save();
+
+        ctx.font = `${this.size}px Arial`;
+        ctx.fillStyle = "#ff4da6";
+
+        ctx.shadowColor = "#ff1493";
+        ctx.shadowBlur = 15;
+
+        ctx.fillText(TEXT, this.x, this.y);
+
+        ctx.restore();
+    }
+}
+
+const particles = [];
+
+function heartPoint(t) {
+    return {
+        x: 16 * Math.pow(Math.sin(t), 3),
+        y:
+            13 * Math.cos(t)
+            - 5 * Math.cos(2 * t)
+            - 2 * Math.cos(3 * t)
+            - Math.cos(4 * t)
+    };
+}
+
+for (let i = 0; i < 180; i++) {
+
+    const t = Math.random() * Math.PI * 2;
+
+    const p = heartPoint(t);
+
+    particles.push(
+        new TextParticle(
+            canvas.width / 2 + p.x * 16,
+            canvas.height / 2 - p.y * 16
+        )
+    );
+}
 const canvas = document.getElementById("heart");
 const ctx = canvas.getContext("2d");
 
