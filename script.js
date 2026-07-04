@@ -126,7 +126,7 @@ function createLily() {
 
     lily.className = "lily";
 
-    lily.innerHTML = "🪴🤍";
+    lily.innerHTML = "🪷🏺";
 
     lily.style.left = Math.random() * 100 + "%";
 
