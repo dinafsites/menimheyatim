@@ -8,64 +8,61 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
+// ❤️ Heart Text
 const message = "Səni çox sevirəm Dinara ❤️";
-
 const particles = [];
 
-class Particle {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+// ❤️ Heart Shape Formula
+function heartPoint(t) {
+    return {
+        x: 16 * Math.pow(Math.sin(t), 3),
+        y:
+            13 * Math.cos(t) -
+            5 * Math.cos(2 * t) -
+            2 * Math.cos(3 * t) -
+            Math.cos(4 * t)
+    };
+}
 
+class Particle {
+
+    constructor(x, y) {
         this.baseX = x;
         this.baseY = y;
 
-        this.size = 14 + Math.random() * 6;
+        this.x = x + (Math.random() - 0.5) * 200;
+        this.y = y + (Math.random() - 0.5) * 200;
 
-        this.vx = (Math.random() - 0.5) * 6;
-        this.vy = (Math.random() - 0.5) * 6;
-
-        this.alpha = 0.5 + Math.random() * 0.5;
+        this.size = 15 + Math.random() * 8;
     }
 
     update() {
-        this.x += (this.baseX - this.x) * 0.08;
-        this.y += (this.baseY - this.y) * 0.08;
 
-        this.x += this.vx * 0.02;
-        this.y += this.vy * 0.02;
+        this.x += (this.baseX - this.x) * 0.06;
+        this.y += (this.baseY - this.y) * 0.06;
+
     }
 
     draw() {
-        ctx.save();
 
-        ctx.globalAlpha = this.alpha;
+        ctx.save();
 
         ctx.font = `${this.size}px Arial`;
 
         ctx.fillStyle = "#ff4da6";
 
         ctx.shadowColor = "#ff1493";
-        ctx.shadowBlur = 20;
+        ctx.shadowBlur = 25;
 
         ctx.fillText(message, this.x, this.y);
 
         ctx.restore();
+
     }
+
 }
 
-function heartPoint(t) {
-    const x = 16 * Math.pow(Math.sin(t), 3);
-
-    const y =
-        13 * Math.cos(t) -
-        5 * Math.cos(2 * t) -
-        2 * Math.cos(3 * t) -
-        Math.cos(4 * t);
-
-    return { x, y };
-}
-
+// Build Heart
 for (let i = 0; i < 700; i++) {
 
     const t = Math.random() * Math.PI * 2;
@@ -78,8 +75,10 @@ for (let i = 0; i < 700; i++) {
             canvas.height / 2 - p.y * 28
         )
     );
+
 }
 
+// Animate Heart
 function animate() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -90,6 +89,73 @@ function animate() {
     });
 
     requestAnimationFrame(animate);
+
 }
 
 animate();
+
+
+// ⭐ STARS
+
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 250; i++) {
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+
+    star.style.animationDuration =
+        1 + Math.random() * 4 + "s";
+
+    stars.appendChild(star);
+
+}
+
+
+// 🪴 FALLING LILIES
+
+const lilies = document.getElementById("lilies");
+
+function createLily() {
+
+    const lily = document.createElement("div");
+
+    lily.className = "lily";
+
+    lily.innerHTML = "🪴🤍";
+
+    lily.style.left = Math.random() * 100 + "%";
+
+    lily.style.animationDuration =
+        6 + Math.random() * 6 + "s";
+
+    lily.style.fontSize =
+        28 + Math.random() * 20 + "px";
+
+    lilies.appendChild(lily);
+
+    setTimeout(() => {
+        lily.remove();
+    }, 12000);
+
+}
+
+setInterval(createLily, 250);
+
+
+// 🎵 MUSIC
+
+const music = document.getElementById("music");
+const playBtn = document.getElementById("playBtn");
+
+playBtn.onclick = () => {
+
+    music.play();
+
+    playBtn.style.display = "none";
+
+};
