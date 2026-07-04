@@ -1,161 +1,107 @@
-const canvas = document.getElementById("heartCanvas");
+const canvas = document.getElementById("heart");
 const ctx = canvas.getContext("2d");
 
 function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
 }
 resize();
-window.addEventListener("resize", resize);
+addEventListener("resize", resize);
 
-// ❤️ Heart Text
-const message = "Səni çox sevirəm Dinara ❤️";
-const particles = [];
+// ⭐ Stars
+const stars = document.getElementById("stars");
 
-// ❤️ Heart Shape Formula
-function heartPoint(t) {
-    return {
-        x: 16 * Math.pow(Math.sin(t), 3),
-        y:
-            13 * Math.cos(t) -
-            5 * Math.cos(2 * t) -
-            2 * Math.cos(3 * t) -
-            Math.cos(4 * t)
-    };
+for (let i = 0; i < 120; i++) {
+    const s = document.createElement("div");
+    s.className = "star";
+    s.style.left = Math.random() * 100 + "%";
+    s.style.top = Math.random() * 100 + "%";
+    s.style.animationDuration = (2 + Math.random() * 3) + "s";
+    stars.appendChild(s);
 }
 
-class Particle {
+// 🏺🪷 Falling flowers
+const flowers = document.getElementById("flowers");
 
-    constructor(x, y) {
-        this.baseX = x;
-        this.baseY = y;
+function createFlower() {
 
-        this.x = x + (Math.random() - 0.5) * 200;
-        this.y = y + (Math.random() - 0.5) * 200;
+    const f = document.createElement("div");
 
-        this.size = 15 + Math.random() * 8;
-    }
+    f.className = "flower";
 
-    update() {
+    f.innerHTML = "🏺🪷";
 
-        this.x += (this.baseX - this.x) * 0.06;
-        this.y += (this.baseY - this.y) * 0.06;
+    f.style.left = Math.random() * 100 + "%";
 
-    }
+    f.style.fontSize = (22 + Math.random() * 16) + "px";
 
-    draw() {
+    f.style.animationDuration = (8 + Math.random() * 6) + "s";
 
-        ctx.save();
+    flowers.appendChild(f);
 
-        ctx.font = `${this.size}px Arial`;
-
-        ctx.fillStyle = "#ff4da6";
-
-        ctx.shadowColor = "#ff1493";
-        ctx.shadowBlur = 25;
-
-        ctx.fillText(message, this.x, this.y);
-
-        ctx.restore();
-
-    }
-
+    setTimeout(() => {
+        f.remove();
+    }, 14000);
 }
 
-// Build Heart
-for (let i = 0; i < 700; i++) {
+setInterval(createFlower, 700);
 
-    const t = Math.random() * Math.PI * 2;
+// ❤️ Heart
+let beat = 1;
 
-    const p = heartPoint(t);
+function drawHeart(scale){
 
-    particles.push(
-        new Particle(
-            canvas.width / 2 + p.x * 28,
-            canvas.height / 2 - p.y * 28
-        )
-    );
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
+    ctx.beginPath();
+
+    for(let t=0;t<Math.PI*2;t+=0.02){
+
+        const x = 16*Math.pow(Math.sin(t),3);
+
+        const y = 13*Math.cos(t)
+                -5*Math.cos(2*t)
+                -2*Math.cos(3*t)
+                -Math.cos(4*t);
+
+        const px = canvas.width/2 + x*13*scale;
+        const py = canvas.height/2 - y*13*scale;
+
+        if(t===0){
+            ctx.moveTo(px,py);
+        }else{
+            ctx.lineTo(px,py);
+        }
+    }
+
+    ctx.closePath();
+
+    ctx.shadowBlur = 35;
+    ctx.shadowColor = "#ff1493";
+
+    ctx.strokeStyle = "#ff5ba7";
+    ctx.lineWidth = 5;
+    ctx.stroke();
 }
 
-// Animate Heart
-function animate() {
+function animate(){
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    beat += 0.05;
 
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
+    const scale = 1 + Math.sin(beat) * 0.05;
+
+    drawHeart(scale);
 
     requestAnimationFrame(animate);
-
 }
 
 animate();
 
-
-// ⭐ STARS
-
-const stars = document.getElementById("stars");
-
-for (let i = 0; i < 250; i++) {
-
-    const star = document.createElement("div");
-
-    star.className = "star";
-
-    star.style.left = Math.random() * 100 + "%";
-    star.style.top = Math.random() * 100 + "%";
-
-    star.style.animationDuration =
-        1 + Math.random() * 4 + "s";
-
-    stars.appendChild(star);
-
-}
-
-
-// 🪷🏺 FALLING LILIES
-
-const lilies = document.getElementById("lilies");
-
-function createLily() {
-
-    const lily = document.createElement("div");
-
-    lily.className = "lily";
-
-    lily.innerHTML = "🪷🏺";
-
-    lily.style.left = Math.random() * 100 + "%";
-
-    lily.style.animationDuration =
-        6 + Math.random() * 6 + "s";
-
-    lily.style.fontSize =
-        28 + Math.random() * 20 + "px";
-
-    lilies.appendChild(lily);
-
-    setTimeout(() => {
-        lily.remove();
-    }, 12000);
-
-}
-
-setInterval(createLily, 250);
-
-
-// 🎵 MUSIC
-
+// 🎵 Music
 const music = document.getElementById("music");
 const playBtn = document.getElementById("playBtn");
 
 playBtn.onclick = () => {
-
     music.play();
-
     playBtn.style.display = "none";
-
 };
